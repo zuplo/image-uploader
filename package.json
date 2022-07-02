@@ -1,0 +1,17 @@
+{
+  "name": "image-drop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^19.0.7"
+  },
+  "dependencies": {
+    "@google-cloud/storage": "^6.2.2"
+  }
+}
