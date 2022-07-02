@@ -12,4 +12,6 @@ After the upload, markdown will be written to your clipboard like:
 
 ## Setup
 
+[Download from Google Drive](https://drive.google.com/file/d/1A6SqeccJYnq0Szwq3HSrHlaaqFQbTgIU/view?usp=sharing)
+
 To setup this app, simply create a file in your home directory called `zuplo-cdn-upload-account.json` and copy the contents from the 1Password note called "Zuplo CDN Upload Service Account". This authorizes the app to upload files to the CDN.
