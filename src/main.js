@@ -5,6 +5,7 @@ const {
   BrowserWindow,
   clipboard,
   dialog,
+  shell,
 } = require("electron");
 const path = require("path");
 const fs = require("fs");
@@ -17,6 +18,7 @@ const BUCKET_NAME = "cdn.zuplo.com";
 
 app.setLoginItemSettings({
   openAtLogin: true,
+  name: "Image Drop",
 });
 
 let tray = null;
@@ -25,7 +27,25 @@ app.whenReady().then(() => {
 
   const iconPath = path.join(__dirname, "icon/drop.png");
   tray = new Tray(iconPath);
+  const contextMenu = Menu.buildFromTemplate([
+    {
+      label: "Source",
+      type: "normal",
+      click: () => {
+        shell.openExternal("https://github.com/zuplo/image-uploader");
+      },
+    },
+    {
+      label: "Quit",
+      type: "normal",
+      role: "quit",
+      click: () => {
+        app.quit();
+      },
+    },
+  ]);
   tray.setToolTip("Drop images here.");
+  tray.setContextMenu(contextMenu);
   tray.on("drop-files", (event, files) => {
     const keyFilename = path.join(homedir, "zuplo-cdn-upload-account.json");
     if (!fs.existsSync(keyFilename)) {
