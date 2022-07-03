@@ -1,17 +1,17 @@
 # Image Upload Tool
 
-This utility puts an icon in the menubar that you can drop images onto to upload them to the Zuplo CDN.
+This utility puts an icon in the menubar that you can drop images onto to upload them to a Google Storage Bucket.
 
-Images will be uploaded to `https://cdn.zuplo.com/assets/<UUID>.ext`
+Images will be uploaded to `https://<YOUR_BUCKET>/assets/<UUID>.ext`
 
 After the upload, markdown will be written to your clipboard like:
 
 ```
-![](https://cdn.zuplo.com/assets/<UUID>.ext)
+![](https://<YOUR_BUCKET>/assets/<UUID>.ext)
 ```
 
 ## Setup
 
-[Download from Google Drive](https://drive.google.com/file/d/1A6SqeccJYnq0Szwq3HSrHlaaqFQbTgIU/view?usp=sharing)
-
-To setup this app, simply create a file in your home directory called `zuplo-cdn-upload-account.json` and copy the contents from the 1Password note called "Zuplo CDN Upload Service Account". This authorizes the app to upload files to the CDN.
+1. Create a Google Cloud Service account with permission to upload to the bucket you would like to use
+2. Open the **Setup** window through the application's menu icon.
+3. Enter the JSON value of the service account and the bucket name in the form and click save
