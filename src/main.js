@@ -22,7 +22,8 @@ app.setLoginItemSettings({
 let tray = null;
 app.whenReady().then(() => {
   app.dock.hide();
-  const iconPath = path.join(__dirname, "icon/drop.png");
+
+  const iconPath = path.join(__dirname, "icon/TrayTemplate.png");
   tray = new Tray(iconPath);
   const contextMenu = Menu.buildFromTemplate([
     {
