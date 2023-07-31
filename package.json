@@ -10,8 +10,15 @@
     "make": "electron-forge make",
     "publish": "electron-forge publish"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Nate Totten (@ntotten)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zuplo/core.git"
+  },
+  "bugs": {
+    "url": "https://github.com/zuplo/core/issues"
+  },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.5",
     "@electron-forge/maker-deb": "^6.0.5",
@@ -19,12 +26,13 @@
     "@electron-forge/maker-pkg": "^6.0.5",
     "@electron-forge/maker-zip": "^6.0.5",
     "@electron-forge/publisher-github": "^6.0.5",
-    "electron": "^19.1.9",
+    "electron": "^25.3.2",
     "eslint": "^8.34.0"
   },
   "dependencies": {
     "@google-cloud/storage": "^6.9.3",
     "electron-settings": "^4.0.2",
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "update-electron-app": "^2.0.1"
   }
 }

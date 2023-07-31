@@ -11,22 +11,13 @@
   </head>
   <body>
     <div class="container mt-3">
-      <h1>Setup</h1>
       <p>
-        Create a Google Cloud Service account with permission to upload to the
-        bucket you would like to use and fill out the form.
+        Specify the name of the bucket you want to use for storing your assets.
+        Login to your GCP account using the <code>gcloud</code> CLI as shown
+        below.
       </p>
+      <pre><code>gcloud auth login</code></pre>
       <form>
-        <div class="mb-3">
-          <label for="serviceAccountInput" class="form-label"
-            >Service Account JSON</label
-          >
-          <input type="text" class="form-control" id="serviceAccountInput" />
-          <div id="serviceAccountHelp" class="form-text">
-            The Google Service Account must have permission to upload to the
-            storage bucket.
-          </div>
-        </div>
         <div class="mb-3">
           <label for="bucketNameInput" class="form-label">Bucket Name</label>
           <input type="text" class="form-control" id="bucketNameInput" />

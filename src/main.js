@@ -5,7 +5,6 @@ const {
   clipboard,
   dialog,
   shell,
-  safeStorage,
   BrowserWindow,
   ipcMain,
 } = require("electron");
@@ -13,6 +12,8 @@ const path = require("path");
 const fs = require("fs");
 const { randomUUID } = require("crypto");
 const { Storage } = require("@google-cloud/storage");
+
+require("update-electron-app")();
 
 app.setLoginItemSettings({
   openAtLogin: true,
@@ -55,8 +56,12 @@ app.whenReady().then(() => {
 
   ipcMain.on("set-settings", (event, settings) => {
     const webContents = event.sender;
-    const win = BrowserWindow.fromWebContents(webContents);
-    saveSettings(settings.serviceAccount, settings.bucketName)
+    const win = BrowserWindow.fromWebContents(webContents, {
+      webPreferences: {
+        nodeIntegration: true,
+      },
+    });
+    saveSettings(settings.bucketName)
       .then(() => {
         win.webContents.send("load-settings", settings);
       })
@@ -66,14 +71,12 @@ app.whenReady().then(() => {
   tray.on("drop-files", (event, files) => {
     getSettings()
       .then((settings) => {
-        if (!settings?.bucketName || !settings?.serviceAccount) {
+        if (!settings?.bucketName) {
           showSetup();
           return;
         }
         return uploadFiles(settings, files).then((files) => {
-          const markdownFiles = files.map((f) => `![](${f})`);
-          const markdown = markdownFiles.join("\n");
-          clipboard.writeText(markdown);
+          clipboard.writeText(files.join("\n"));
         });
       })
       .catch((err) => {
@@ -87,8 +90,7 @@ app.whenReady().then(() => {
 
 async function uploadFiles(settings, files) {
   const uploadedFiles = [];
-  const credentials = JSON.parse(settings.serviceAccount);
-  const storage = new Storage({ credentials });
+  const storage = new Storage();
   const tasks = files.map(async (file) => {
     const extension = path.extname(file);
     const fileId = randomUUID();
@@ -112,11 +114,8 @@ function getSettingsPath() {
   return settingsPath;
 }
 
-async function saveSettings(serviceAccountJson, bucketName) {
-  const serviceAccount = safeStorage
-    .encryptString(serviceAccountJson)
-    .toString("hex");
-  const settings = JSON.stringify({ serviceAccount, bucketName });
+async function saveSettings(bucketName) {
+  const settings = JSON.stringify({ bucketName });
   fs.promises.writeFile(getSettingsPath(), settings, "utf-8");
 }
 
@@ -125,20 +124,20 @@ async function getSettings() {
   try {
     settingsJson = await fs.promises.readFile(getSettingsPath(), "utf-8");
   } catch (err) {
-    return { serviceAccount: null, bucketName: null };
+    return { bucketName: null };
   }
   const settings = JSON.parse(settingsJson);
   const bucketName = settings.bucketName;
-  const serviceAccountBuf = Buffer.from(settings.serviceAccount, "hex");
-  const serviceAccount = safeStorage.decryptString(serviceAccountBuf);
-  return { bucketName, serviceAccount };
+  return { bucketName };
 }
 
 const showSetup = () => {
   const win = new BrowserWindow({
     width: 600,
-    height: 440,
+    height: 300,
+    resizable: false,
     webPreferences: {
+      nodeIntegration: true,
       preload: path.join(__dirname, "preload.js"),
     },
   });
@@ -146,9 +145,9 @@ const showSetup = () => {
   getSettings()
     .then((settings) => {
       const setupFile = path.join(__dirname, "setup.html");
-      win.loadFile(setupFile);
-
-      win.webContents.send("load-settings", settings);
+      return win.loadFile(setupFile).then(() => {
+        win.webContents.send("load-settings", settings);
+      });
     })
     .catch(console.error);
 };
