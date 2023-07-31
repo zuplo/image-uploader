@@ -7,11 +7,12 @@ Images will be uploaded to `https://<YOUR_BUCKET>/assets/<UUID>.ext`
 After the upload, markdown will be written to your clipboard like:
 
 ```
-![](https://<YOUR_BUCKET>/assets/<UUID>.ext)
+https://<YOUR_BUCKET>/assets/<UUID>.ext
 ```
 
 ## Setup
 
-1. Create a Google Cloud Service account with permission to upload to the bucket you would like to use
+1. Login to your Google Account using the gcloud CLI. [Google Docs](https://cloud.google.com/sdk/docs/authorizing)
 2. Open the **Setup** window through the application's menu icon.
-3. Enter the JSON value of the service account and the bucket name in the form and click save
+3. Enter bucket name where you want to upload the assets (i.e. `my-bucket-name`)
+4. Click Save
