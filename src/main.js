@@ -13,7 +13,7 @@ const fs = require("fs");
 const { randomUUID } = require("crypto");
 const { Storage } = require("@google-cloud/storage");
 
-require("update-electron-app")();
+// require("update-electron-app")();
 
 app.setLoginItemSettings({
   openAtLogin: true,
