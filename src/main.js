@@ -65,7 +65,12 @@ app.whenReady().then(() => {
       .then(() => {
         win.webContents.send("load-settings", settings);
       })
-      .catch(console.error);
+      .catch((err) => {
+        dialog.showErrorBox(
+          "An error has occurred",
+          err.message ?? "unknown error"
+        );
+      });
   });
 
   tray.on("drop-files", (event, files) => {
@@ -149,7 +154,12 @@ const showSetup = () => {
         win.webContents.send("load-settings", settings);
       });
     })
-    .catch(console.error);
+    .catch((err) => {
+      dialog.showErrorBox(
+        "An error has occurred",
+        err.message ?? "unknown error"
+      );
+    });
 };
 
 app.on("window-all-closed", function () {});
