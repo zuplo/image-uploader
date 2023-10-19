@@ -1,4 +1,5 @@
 module.exports = {
+  osxSign: {},
   packagerConfig: {},
   publishers: [
     {
@@ -13,15 +14,15 @@ module.exports = {
     },
   ],
   makers: [
-    {
-      name: "@electron-forge/maker-dmg",
-    },
     // {
-    //   name: "@electron-forge/maker-pkg",
+    //   name: "@electron-forge/maker-dmg",
     // },
     {
-      name: "@electron-forge/maker-zip",
-      platforms: ["darwin"],
+      name: "@electron-forge/maker-pkg",
     },
+    // {
+    //   name: "@electron-forge/maker-zip",
+    //   platforms: ["darwin"],
+    // },
   ],
 };

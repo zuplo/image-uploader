@@ -12,8 +12,10 @@ const path = require("path");
 const fs = require("fs");
 const { randomUUID } = require("crypto");
 const { Storage } = require("@google-cloud/storage");
+const log = require("electron-log/main");
 
-// require("update-electron-app")();
+log.initialize({ preload: true });
+require("update-electron-app")();
 
 app.setLoginItemSettings({
   openAtLogin: true,
@@ -66,6 +68,7 @@ app.whenReady().then(() => {
         win.webContents.send("load-settings", settings);
       })
       .catch((err) => {
+        log.error(err);
         dialog.showErrorBox(
           "An error has occurred",
           err.message ?? "unknown error"
@@ -85,6 +88,7 @@ app.whenReady().then(() => {
         });
       })
       .catch((err) => {
+        log.error(err);
         dialog.showErrorBox(
           "An error has occurred",
           err.message ?? "unknown error"
@@ -97,6 +101,7 @@ async function uploadFiles(settings, files) {
   const uploadedFiles = [];
   const storage = new Storage();
   const tasks = files.map(async (file) => {
+    log.debug(`Uploading file ${file}`);
     const extension = path.extname(file);
     const fileId = randomUUID();
     const destFileName = `assets/${fileId}${extension}`;
@@ -129,6 +134,7 @@ async function getSettings() {
   try {
     settingsJson = await fs.promises.readFile(getSettingsPath(), "utf-8");
   } catch (err) {
+    log.error(err);
     return { bucketName: null };
   }
   const settings = JSON.parse(settingsJson);
@@ -155,6 +161,7 @@ const showSetup = () => {
       });
     })
     .catch((err) => {
+      log.error(err);
       dialog.showErrorBox(
         "An error has occurred",
         err.message ?? "unknown error"

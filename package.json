@@ -7,14 +7,16 @@
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
+    "sign": "electron-osx-sign \"out/Image Drop-darwin-arm64/Image Drop.app\" --identity='Developer ID Application: Zuplo, Inc. (TW9D3DPQV4)' --no-gatekeeper-assess",
+    "sign:dev": "electron-osx-sign \"out/Image Drop-darwin-arm64/Image Drop.app\" --identity='Zuplo, Inc.' --provisioning-profile=$HOME/profile.mobileprovision",
     "make": "electron-forge make",
     "publish": "electron-forge publish"
   },
-  "author": "Nate Totten (@ntotten)",
+  "author": "Zuplo, Inc. (@zuplo",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zuplo/core.git"
+    "url": "git+https://github.com/zuplo/image-drop.git"
   },
   "bugs": {
     "url": "https://github.com/zuplo/core/issues"
@@ -26,11 +28,15 @@
     "@electron-forge/maker-pkg": "^6.0.5",
     "@electron-forge/maker-zip": "^6.0.5",
     "@electron-forge/publisher-github": "^6.0.5",
-    "electron": "^25.3.2",
+    "dotenv": "^16.3.1",
+    "electro": "^2.1.1",
+    "electron": "^27.0.1",
     "eslint": "^8.34.0"
   },
   "dependencies": {
-    "@google-cloud/storage": "^6.9.3",
+    "@electron/osx-sign": "^1.0.5",
+    "@google-cloud/storage": "^7.3.1",
+    "electron-log": "^4.4.8",
     "electron-settings": "^4.0.2",
     "electron-squirrel-startup": "^1.0.0",
     "update-electron-app": "^2.0.1"
