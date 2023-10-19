@@ -1,3 +1,4 @@
 node_modules/
 out/
 image-upload-settings.json
+.env
